@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import * as ethers from 'ethers'
 import Link from 'next/link'
-// import { DAppProvider, Polygon, useEthers } from '@usedapp/core'
+import { DAppProvider, Polygon, useEthers } from '@usedapp/core'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 
 // RainbowKit imports
@@ -43,14 +43,14 @@ const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-/*const config = {
+const config = {
  readOnlyChainId: Polygon.chainId,
  readOnlyUrls: {
  // in this tutorial we use Ankr public RPC. It's free and has it's own limits
  // in the production version with a large number of users, we do not recommend using it
- [Polygon.chainId]: new ethers.providers.StaticJsonRpcProvider('https://rpc.ankr.com/polygon'),
+ [Polygon.chainId]: new ethers.providers.StaticJsonRpcProvider('https://polygon-mainnet.g.alchemy.com/v2/pVNKenYnj7n4zCEhvFCRCBiR2InmXEFI'),
  },
-}*/
+}
 
 const PageLayout = ({ children }) => (
   <div className="container pb-12">
@@ -81,6 +81,7 @@ const PageLayout = ({ children }) => (
 
 export default function App({ Component, pageProps }) {
  return (
+  <DAppProvider config={config}>
  <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
       <ApolloProvider client={apolloClient}>
@@ -90,5 +91,6 @@ export default function App({ Component, pageProps }) {
       </ApolloProvider>
       </RainbowKitProvider>
     </WagmiConfig>
+    </DAppProvider>
  )
 }
